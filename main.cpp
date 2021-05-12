@@ -16,6 +16,9 @@ int main() {
     srand(time(0)); //so rand() actually creates a random number
 
     /* start adding nodes to the vector */
+    for(int i = 1; i < N + 1; i++){
+      //unsure
+    }
 
     //Add edges to the graph randomly
     for(int i = 0; i < N; i++){
