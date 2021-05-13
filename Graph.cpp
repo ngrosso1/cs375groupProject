@@ -5,6 +5,9 @@
 #include <queue>
 #include <cstdlib>
 #include <map>
+#include <limits>
+#include <climits>
+#define V 5
 
 #include "Graph.h"
 #include "AStarNode.h"
@@ -171,6 +174,125 @@ void Graph::AStar(std::pair<int,int> start, std::pair<int,int> end){
 	return;
 	
 }
-int Graph::heuristic(std::pair<int,int> u, std::pair<int,int> v){
-	return std::abs(u.first-v.first)+std::abs(u.second-v.second); //manhattan distance
+int Graph::heuristic(std::pair<int,int> u, std::pair<int,int> v)
+{
+	return std::abs(u.first-v.first)+std::abs(u.second-v.second); //manhattan distanceance
 }
+
+
+/* void Graph::dijkstra(int n, int source)
+{
+	int cost[5][5];
+	int distance[5];
+	int pred[5];
+	int visited[5];
+	int count, mindistance, next, i, j;
+
+	for(i = 0; i < n; i++)
+		for(j = 0; j < n; j++)
+	if(adjMatrix[i][j] == 0)
+		cost[i][j] = INFINITY;
+	else 
+		cost[i][j] = adjMatrix[i][j];
+				
+	for(i = 0; i < n; i++)
+	{
+		distance[i] = cost[source][i];
+		pred[i] = source;
+		visited[i] = 0;
+	}
+	distance[source] = 0;
+	visited[source] = 1;
+	count = 1;
+
+	while(count < n-1)
+	{
+		mindistance = INFINITY;
+		for(i = 0; i < n; i++)
+			if((distance[i] < mindistance) &&(!visited[i]))
+			{
+				mindistance = distance[i];
+				next = i;
+			}
+		visited[next] = 1;
+		for(i = 0; i < n; i++)
+			if(!visited[i])
+		if((mindistance + cost[next][i]) < distance[i])
+		{
+			distance[i] = mindistance + cost[next][i];
+			pred[i] = next;
+		}
+		count++;
+	}
+		
+	for(i = 0; i < n; i++)
+	if(i!= source)
+	{
+		std::cout << "\ndistanceance of node" <<i<<"="<<distance[i];
+		std::cout << "\nPath = "<<i;
+		j = i;
+		do {
+			j = pred[j];
+			std::cout << "<-" << j;
+		}while(j != source);	
+	}	
+}
+*/
+/*void output(int distance[])
+{
+    printf("Vertex \t\t distanceance from Source\n");
+    for (int i = 0; i < V; i++)
+        printf("%d \t\t %d\n", i, distance[i]);
+}
+*/
+int minDistance(int distance[], bool Tset[])
+{
+	int min = INT_MAX, min_index;
+	for(int i = 0; i < V; i++)
+	{
+		if(Tset[i] == false && distance[i] <= min)
+		{
+			min = distance[i];
+			min_index = i;
+		}
+	}
+	return min_index;
+}
+void Graph::dijkstra(int source)
+{
+	int distance[V];
+	bool Tset[V];
+
+	for(int i = 0; i < V; i++)
+	{
+		distance[i] = INT_MAX,Tset[i] = false;
+	}
+	distance[source] = 0;
+
+	for(int count = 0; count < V-1; count++)
+	{
+		int u = minDistance(distance, Tset);
+
+		Tset[u] = true;
+
+		for(int v = 0; v < V; v++)
+		{
+			if (!Tset[v] && adjMatrix[u][v] && distance[u] != INT_MAX && distance[u] + adjMatrix[u][v] < distance[v])
+                distance[v] = distance[u] + adjMatrix[u][v];
+		}
+	}
+	//output(distance);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

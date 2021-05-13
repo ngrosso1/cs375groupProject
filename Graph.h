@@ -9,6 +9,7 @@ class Graph{
 		void printMatrix();
 		void AStar(std::pair<int,int> start, std::pair<int, int> end);
 		int heuristic(std::pair<int,int> one, std::pair<int,int> two);
+		void dijkstra(int source);
 	private:
 		std::vector<std::vector<int>> adjMatrix;
 		int length;

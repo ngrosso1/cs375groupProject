@@ -18,6 +18,7 @@ int main() {
 	end.first=0;
 	end.second=5;
 	g.AStar(start,end);
+	g.dijkstra(0);
 
   return 0;
 }
