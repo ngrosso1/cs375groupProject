@@ -2,6 +2,11 @@
 #include <time.h>
 #include <vector>
 
+void addEdge(vector<int> adj[], int x, int y){
+  adj[x].push_back(y);
+  adj[y].push_back(x);
+}
+
 int N; //Number of nodes
 float P; //Prob of nodes
 vector<int> g[N]; //adj list
