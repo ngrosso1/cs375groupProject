@@ -2,8 +2,8 @@
 #include <vector>
 #include <time.h>
 #include <utility>
-
 #include "Graph.h"
+
 using namespace std;
 
 void addEdge(vector<int> adj[], int x, int y){
@@ -37,7 +37,7 @@ int main() {
     for(int i = 0; i < N; i++){
       for(int j = 0; j < N; j++){
         if(i < j){
-          int R = rand(); //take a random number to compare P
+          float R = (float) rand() / MAX_RAND; //take a random number to compare P
           if(R < P) addEdge(g, i, j);
         }
       }
