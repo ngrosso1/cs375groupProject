@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
+#include <utility>
+
 #include "Graph.h"
 using namespace std;
 
@@ -11,11 +13,16 @@ void addEdge(vector<int> adj[], int x, int y){
 
 int main() {
 	Graph g = Graph(5,6); // 0 to 4
-	g.addWall(0,0);
-	g.addWall(3,1);
-	g.addWall(1,2);
+	g.addWall(0,2);
 	g.addWall(1,2);
 	g.printMatrix();
+	std::pair<int,int> start;
+	std::pair<int,int> end;
+	start.first=0;
+	start.second=0;
+	end.first=0;
+	end.second=5;
+	g.AStar(start,end);
     /*int N; //Number of nodes
     float P; //Prob of nodes
     vector<int> g[N]; //adj list
