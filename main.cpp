@@ -10,11 +10,11 @@ void addEdge(vector<int> adj[], int x, int y){
 }
 
 int main() {
-	Graph g = Graph(5); // 0 to 4
-	g.addEdge(0,0);
-	g.addEdge(3,1);
-	g.addEdge(1,2);
-	g.addEdge(1,2);
+	Graph g = Graph(5,6); // 0 to 4
+	g.addWall(0,0);
+	g.addWall(3,1);
+	g.addWall(1,2);
+	g.addWall(1,2);
 	g.printMatrix();
     /*int N; //Number of nodes
     float P; //Prob of nodes
