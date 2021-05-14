@@ -60,32 +60,34 @@ std::vector<std::pair<int,int>> Graph::AStar(std::pair<int,int> start, std::pair
 	std::priority_queue<std::pair<std::pair<int,int>,int>, std::vector<std::pair<std::pair<int,int>,int>>, decltype(cmp)> q(cmp);
 	q.push(start);*/
 	std::map<std::pair<int,int>,std::pair<int,int>> endMap;
-	unsigned long int i;
+	std::map<std::pair<int,int>,std::pair<int,int>> dist;
+	std::map<std::pair<int,int>,bool> added;
 	unsigned long int j;
-	unsigned long int k;
 	std::pair<int,int> nullPair;
 	nullPair.first=-1;
 	nullPair.second=-1;
-	AStarNode startNode=AStarNode(start.first, start.second, 0, 0, nullPair);
+	//AStarNode startNode=AStarNode(start.first, start.second, 0, 0, nullPair);
 	std::pair<int,int> currentPair;
-	std::vector<AStarNode> successorList;
-	auto cmp = [](AStarNode left, AStarNode right){
-		return left.g+left.h > right.g+right.h;
+	std::vector<std::pair<int,int>> successorList;
+	auto cmp = [&dist](std::pair<int,int> left, std::pair<int,int> right){
+		return dist[left].first+dist[left].second > dist[right].first+dist[right].second;
 	};
-	bool add = true;
-	bool added = false;
-	AStarNode currentNode = startNode;
-	std::priority_queue<AStarNode, std::vector<AStarNode>,decltype(cmp)> openQueue(cmp);
-	openQueue.push(startNode);
-	std::vector<AStarNode> openAndClosedList;
-	openAndClosedList.push_back(startNode);
+	//AStarNode currentNode = startNode;
+	std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>,decltype(cmp)> openQueue(cmp);
+	openQueue.push(start);
+	added[start]=true;
+	dist[start]=std::make_pair(0,0);
+	std::pair<int,int> currentNode;
 	while(!openQueue.empty()){
 		currentNode = openQueue.top();
 		openQueue.pop();
-		int x = currentNode.loc.first;
-		int y = currentNode.loc.second;
-		int g = currentNode.g+1;
-		if(x!=0&&adjMatrix.at(x-1).at(y)==0){
+		int x = currentNode.first;
+		int y = currentNode.second;
+		int g = dist[currentNode].first+1;
+		if(x==end.first&&y==end.second){
+			break;
+		}
+		/*if(x!=0&&adjMatrix.at(x-1).at(y)==0){
 			currentPair.first=x-1;
 			currentPair.second=y;
 			if(currentPair.first==end.first&&currentPair.second==end.second){
@@ -127,15 +129,26 @@ std::vector<std::pair<int,int>> Graph::AStar(std::pair<int,int> start, std::pair
 			}
 			AStarNode successorNode=AStarNode(currentPair.first,currentPair.second,g,heuristic(currentPair,end),currentNode.loc);
 			successorList.push_back(successorNode);
-		}
-		k=openAndClosedList.size();
+		}*/
+		successorList=succList(currentNode);
+		//k=openAndClosedList.size();
 		for(j=0; j<successorList.size(); j++){
+			if(!adjMatrix.at(successorList.at(j).first).at(successorList.at(j).second)){
+				int h=heuristic(successorList.at(j),end);
+				if(!dist.count(successorList.at(j))||dist[successorList.at(j)].first+dist[successorList.at(j)].second>=g+h){
+					dist[successorList.at(j)]=std::make_pair(g,h);
+					endMap[successorList.at(j)]=currentNode;
+					openQueue.push(successorList.at(j));
+				}
+			}
+		}
+		/*for(j=0; j<successorList.size(); j++){
 			for(i=0; i<k; i++){
 				AStarNode checkNode=openAndClosedList.at(i);
 				if(successorList.at(j).loc.first==checkNode.loc.first&&successorList.at(j).loc.second==checkNode.loc.second){
 					if(successorList.at(j).g+successorList.at(j).h>=checkNode.g+checkNode.h){
-					/*	openAndClosedList.erase(openAndClosedList.begin()+i);
-						openAndClosedList.push_back(successorList.at(j));*/
+				//		openAndClosedList.erase(openAndClosedList.begin()+i);
+				//		openAndClosedList.push_back(successorList.at(j));
 						add = false;
 					}		
 				}
@@ -149,7 +162,7 @@ std::vector<std::pair<int,int>> Graph::AStar(std::pair<int,int> start, std::pair
 			}
 			added=false;
 			add=true;
-		}
+		}*/
 		//openAndClosedList.push_back(currentNode);
 		successorList.clear();
 	}
@@ -163,9 +176,9 @@ std::vector<std::pair<int,int>> Graph::AStar(std::pair<int,int> start, std::pair
 		t->next = head;
 		head=t;
 	}*/	
-	i=0;
-	currentPair.first=currentNode.loc.first;
-	currentPair.second=currentNode.loc.second;
+	
+	currentPair.first=currentNode.first;
+	currentPair.second=currentNode.second;
 	int f;
 	int s;
 	std::vector<std::pair<int,int>> retPairs;
@@ -274,14 +287,14 @@ int Graph::heuristic(std::pair<int,int> u, std::pair<int,int> v)
 	}	
 }
 */
-void output(int distance[])
+/*void output(int distance[])
 {
     printf("Vertex \t\t distanceance from Source\n");
     for (int i = 0; i < V; i++)
         printf("%d \t\t %d\n", i, distance[i]);
-}
+}*/
 
-int minDistance(int distance[], bool Tset[])
+/*int minDistance(int distance[], bool Tset[])
 {
 	int min = INT_MAX, min_index;
 	for(int i = 0; i < V; i++)
@@ -293,7 +306,7 @@ int minDistance(int distance[], bool Tset[])
 		}
 	}
 	return min_index;
-}
+}*/
 /*
 void Graph::dijkstra(int source)
 {
@@ -308,6 +321,7 @@ void Graph::dijkstra(int source)
 
 	for(int count = 0; count < V-1; count++)
 	{
+
 		int u = minDistance(distance, Tset);
 
 		Tset[u] = true;
@@ -321,25 +335,96 @@ void Graph::dijkstra(int source)
 	output(distance);
 }
 */
-void Graph::dijkstra(std::pair<int,int> source, std::pair<int,int> target)
+std::vector<std::pair<int,int>> Graph::succList(std::pair<int,int> src){
+	std::vector<std::pair<int,int>> succ;
+	std::pair<int,int> curr;
+	if(src.first!=0){//&&!adjMatrix[src.first-1][src.second]){
+		curr.first=src.first-1;
+		curr.second=src.second;
+		succ.push_back(curr);
+	}
+	if(src.second!=0){//&&!adjMatrix[src.first][src.second-1]){
+		curr.first=src.first;
+		curr.second=src.second-1;
+		succ.push_back(curr);
+	}
+	if(src.first!=length-1){//&&!adjMatrix[src.first+1][src.second]){
+		curr.first=src.first+1;
+		curr.second=src.second;
+		succ.push_back(curr);
+	}
+	if(src.second!=width-1){//&&adjMatrix[src.first][src.second+1]){
+		curr.first=src.first;
+		curr.second=src.second+1;
+		succ.push_back(curr);
+	}
+	return succ;
+}
+std::vector<std::pair<int,int>> Graph::dijkstra(std::pair<int,int> source, std::pair<int,int> target)
 {
-	std::priority_queue<DJnode, std::vector<DJnode>,decltype(cmp)> prioQ(cmp);
-
+	/*auto cmp = [](DJnode left, DJnode right){
+		return left.dist > right.dist;
+	};*/
+	std::map<std::pair<int,int>,int> dist;
+	auto cmp = [&dist](std::pair<int,int> left, std::pair<int,int> right){
+		return dist[left] > dist[right];
+	};
+	unsigned long int i;
+	std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>,decltype(cmp)> prioQ(cmp);
+	std::map<std::pair<int,int>,std::pair<int,int>> prev;
+	std::pair<int,int> curr;
+	std::pair<int,int> nullPair;
+	nullPair.first=-1;
+	nullPair.second=-1;
+	std::vector<std::pair<int,int>> succL;
+	std::vector<std::pair<int,int>> path;
 	// make node from pair
-	for(int i = 0; i < adjMatrix.size(); i++)
+	for(int i = 0; i < length; i++)
 	{
-		for(int j = 0; j < ; j++)
+		for(int j = 0; j <width ; j++)
 		{
-			if(adjMatrix[i][j] == 0) prioQ.push()
+			if(adjMatrix[i][j] == 0){ 
+				curr.first=i;
+				curr.second=j;
+				//prioQ.push(curr);
+				dist[curr]= 999999;
+				prev[curr]=nullPair;
+			}
 		}
 	}
-
-
-
-
+	dist[source]=0;
+	prioQ.push(source);
+	while(!prioQ.empty()){
+		curr=prioQ.top();
+		prioQ.pop();
+		succL=succList(curr);
+		for(i=0; i<succL.size(); i++){
+			int alt = dist[curr]+1;
+			if(alt < dist[succL.at(i)]){
+				dist[succL.at(i)]=alt;
+				prev[succL.at(i)]=curr;
+				prioQ.push(succL.at(i));
+			}
+		}
+		if(curr.first==target.first&&curr.second==target.second){
+			break;
+		}
+	}
+	int f;
+	int s;
+	while(!(curr.first==source.first&&curr.second==source.second)){
+		std::cout << "["<<curr.first<<","<<curr.second<<"] ";
+		path.push_back(curr);
+		f=prev[curr].first;
+		s=prev[curr].second;
+		curr.first=f;
+		curr.second=s;
+	}
+	std::cout << "["<<source.first<<","<<source.second<<"]\n";
+	path.push_back(source);
+	return path;
 	
 
-	
 }
 
 

@@ -21,9 +21,11 @@ int main() {
 	end.first=0;
 	end.second=5;
 	Graph g = randG(start, end, 5, 6, 0.25);
+	g.printMatrix();
 	std::vector<std::pair<int,int>> pairs = g.AStar(start,end);
 	g.printSolution(pairs);
-	g.dijkstra(0);
+	pairs=g.dijkstra(start,end);
+	g.printSolution(pairs);
 
   return 0;
 }
