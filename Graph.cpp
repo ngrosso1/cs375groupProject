@@ -8,6 +8,7 @@
 #include <limits>
 #include <climits>
 #include <algorithm>
+
 #define Infinity 9999
 
 #include "Graph.h"
@@ -182,7 +183,9 @@ std::vector<std::pair<int,int>> Graph::AStar(std::pair<int,int> start, std::pair
 	int f;
 	int s;
 	std::vector<std::pair<int,int>> retPairs;
-	std::cout << "Reverse path\n";
+	//std::cout << "Reverse path\n";
+	std::cout << "A* Output:" << std::endl;
+	std::cout << "Shortest Path: ";
 	while(!(currentPair.first==start.first&&currentPair.second==start.second)){
 		std::cout << "["<<currentPair.first<<","<<currentPair.second<<"] ";
 		retPairs.push_back(currentPair);
@@ -412,6 +415,8 @@ std::vector<std::pair<int,int>> Graph::dijkstra(std::pair<int,int> source, std::
 	}
 	int f;
 	int s;
+	std::cout << "Dijkstra's Output:" << std::endl;
+	std::cout << "Shortest Path: ";
 	while(!(curr.first==source.first&&curr.second==source.second)){
 		std::cout << "["<<curr.first<<","<<curr.second<<"] ";
 		path.push_back(curr);
