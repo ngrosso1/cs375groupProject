@@ -20,7 +20,7 @@ int main() {
 	start.second=0;
 	end.first=0;
 	end.second=5;
-	Graph g = randG(start, end, int N);
+	Graph g = randG(start, end, 5, 6, 0.25);
 	std::vector<std::pair<int,int>> pairs = g.AStar(start,end);
 	g.printSolution(pairs);
 	g.dijkstra(0);
