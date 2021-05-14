@@ -25,9 +25,9 @@ int main() {
 	std::pair<int,int> end;
 	start.first=0;
 	start.second=0;
-	end.first=0;
-	end.second=5;
-	Graph g = randG(start, end, 5, 6, 0.25);
+	end.first=8;
+	end.second=12;
+	Graph g = randG(start, end, 10, 16, 0.25);
 	cout << "Input Grid" << endl;
 	g.printMatrix();
 	cout << "--------------------------------------------------------------------------------" << endl;
