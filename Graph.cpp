@@ -7,6 +7,7 @@
 #include <map>
 #include <limits>
 #include <climits>
+#include <algorithm>
 #define V 5
 
 #include "Graph.h"
@@ -42,12 +43,17 @@ void Graph::printMatrix(){
 	for(i=0; i<length; i++){
 		std::cout << i << " ";
 		for(j=0; j<width; j++){
-			std::cout << adjMatrix.at(i).at(j) << " ";
+			if(adjMatrix.at(i).at(j)){
+				std::cout << adjMatrix.at(i).at(j) << " ";
+			}
+			else{
+				std::cout << ". ";
+			}
 		}
 		std::cout << "\n";
 	}
 }
-void Graph::AStar(std::pair<int,int> start, std::pair<int,int> end){
+std::vector<std::pair<int,int>> Graph::AStar(std::pair<int,int> start, std::pair<int,int> end){
 	/*auto cmp = [](std::pair<std::pair<int,int>,int>	left, std::pair<std::pair<int,int>,int> right){
 		return left.second > right.second;
 	};
@@ -162,17 +168,47 @@ void Graph::AStar(std::pair<int,int> start, std::pair<int,int> end){
 	currentPair.second=currentNode.loc.second;
 	int f;
 	int s;
+	std::vector<std::pair<int,int>> retPairs;
 	std::cout << "Reverse path\n";
 	while(!(currentPair.first==start.first&&currentPair.second==start.second)){
 		std::cout << "["<<currentPair.first<<","<<currentPair.second<<"] ";
+		retPairs.push_back(currentPair);
 		f=endMap[currentPair].first;
 		s=endMap[currentPair].second;
 		currentPair.first=f;
 		currentPair.second=s;
 	}
 	std::cout << "["<<start.first<<","<<start.second<<"]\n";
-	return;
-	
+	retPairs.push_back(start);
+	return retPairs;
+		
+}
+void Graph::printSolution(std::vector<std::pair<int,int>> sols){
+	int i;
+	int j;
+	std::cout << "  ";
+	for(i=0; i<width; i++){
+		std::cout << i << " ";
+	}
+	std::cout << "\n";
+	for(i=0; i<length; i++){
+		std::cout << i << " ";
+		for(j=0; j<width; j++){
+			std::pair<int,int> h;
+			h.first=i;
+			h.second=j;
+			if(std::count(sols.begin(), sols.end(), h)){
+				std::cout << "#" << " ";
+			}
+			else if(adjMatrix.at(i).at(j)){
+				std::cout << adjMatrix.at(i).at(j) << " ";
+			}
+			else{
+				std::cout << ". ";
+			}
+		}
+		std::cout << "\n";
+	}
 }
 int Graph::heuristic(std::pair<int,int> u, std::pair<int,int> v)
 {
