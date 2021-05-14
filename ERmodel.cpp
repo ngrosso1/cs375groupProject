@@ -1,29 +1,39 @@
 #include <iostream>
 #include <time.h>
 #include <vector>
+#include <utility>
+#include <queue>
+#include <cstdlib>
+#include <map>
+#include <limits>
+#include <climits>
+#include <algorithm>
+#include "Graph.h"
 
-void addEdge(vector<int> adj[], int x, int y){
-  adj[x].push_back(y);
-  adj[y].push_back(x);
+Graph randG(std::pair<int, int> x, std::pair<int, int> y, int N){
+  //int N = y.second + 1; //Number of nodes
+
+  Graph g = Graph(x.second, y.second); //adj list
+  std::srand(time(0)); //so rand() actually creates a random number
+  float P = (float) rand() / RAND_MAX;
+
+  //Add edges to the graph randomly
+  for(int i = 0; i < N; i++){
+    for(int j = 0; j < N; j++){
+        float R = (float) rand() / RAND_MAX; //take a random number to compare P
+        if(R < P){ //if random number is less than prob than add a wall
+          if(x.first == i || y.second == j) continue; //if start or end point dont add wall
+          else g.addWall(i, j);
+        }
+    }
+  }
+
+  return g;
 }
 
-int N; //Number of nodes
-float P; //Prob of nodes
-vector<int> g[N]; //adj list
-srand(time(0)); //so rand() actually creates a random number
-
+/*
 // start adding nodes to the vector
 for(int i = 1; i < N + 1; i++){
   //unsure
 }
-
-//Add edges to the graph randomly
-for(int i = 0; i < N; i++){
-  for(int j = 0; j < N; j++){
-    if(i < j){
-      float R = (float) rand() / MAX_RAND; //take a random number to compare P
-      if(R < P){
-        addEdge(g, i, j);
-    }
-  }
-}
+*/
