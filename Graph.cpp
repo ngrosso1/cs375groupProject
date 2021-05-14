@@ -8,7 +8,7 @@
 #include <limits>
 #include <climits>
 #include <algorithm>
-#define V 5
+#define Infinity 9999
 
 #include "Graph.h"
 #include "AStarNode.h"
@@ -274,13 +274,13 @@ int Graph::heuristic(std::pair<int,int> u, std::pair<int,int> v)
 	}	
 }
 */
-/*void output(int distance[])
+void output(int distance[])
 {
     printf("Vertex \t\t distanceance from Source\n");
     for (int i = 0; i < V; i++)
         printf("%d \t\t %d\n", i, distance[i]);
 }
-*/
+
 int minDistance(int distance[], bool Tset[])
 {
 	int min = INT_MAX, min_index;
@@ -294,6 +294,7 @@ int minDistance(int distance[], bool Tset[])
 	}
 	return min_index;
 }
+/*
 void Graph::dijkstra(int source)
 {
 	int distance[V];
@@ -313,13 +314,33 @@ void Graph::dijkstra(int source)
 
 		for(int v = 0; v < V; v++)
 		{
-			if (!Tset[v] && adjMatrix[u][v] && distance[u] != INT_MAX && distance[u] + adjMatrix[u][v] < distance[v])
-                distance[v] = distance[u] + adjMatrix[u][v];
+			if (!Tset[v] && !adjMatrix[u][v] && distance[u] != INT_MAX && distance[u] + 1 < distance[v])
+                distance[v] = distance[u] + 1;
 		}
 	}
-	//output(distance);
+	output(distance);
 }
+*/
+void Graph::dijkstra(std::pair<int,int> source, std::pair<int,int> target)
+{
+	std::priority_queue<DJnode, std::vector<DJnode>,decltype(cmp)> prioQ(cmp);
 
+	// make node from pair
+	for(int i = 0; i < adjMatrix.size(); i++)
+	{
+		for(int j = 0; j < ; j++)
+		{
+			if(adjMatrix[i][j] == 0) prioQ.push()
+		}
+	}
+
+
+
+
+	
+
+	
+}
 
 
 
