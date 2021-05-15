@@ -97,13 +97,23 @@ int main() {
 
 	std::pair<int,int> start;
 	std::pair<int,int> end;
-	start.first=0;
-	start.second=0;
+	start.first=1;
+	start.second=1;
+	end.first=8;
+	end.second=8;
+	srand(time(NULL));
+	testInputOutput(end,start,10,10,.33);
+	testInput(start,end,10,10,.25, 100);
+	testInput(start,end,10,10,.33, 100);
+	//testInputOutput(start,end,50,50,.25);
 	end.first=45;
 	end.second=45;
-	srand(time(NULL));
-	//testInputOutput(start,end,50,50,.25);
 	testInput(start,end,50,50,.25,100);
+	testInput(start,end,50,50,.33,100);
+	end.first=200;
+	end.second=200;
+	testInput(start,end,250,250,.25,100);
+	testInput(start,end,250,250,.33,100);
 	/*Graph g = randG(start, end, 50, 50, 0.25);
 	cout << "Input Grid" << endl;
 	g.printMatrix();
