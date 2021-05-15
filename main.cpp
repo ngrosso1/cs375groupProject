@@ -80,11 +80,21 @@ void testInput(std::pair<int,int> start, std::pair<int,int> end, int l, int w, f
 			//cout << "Dijkstra's execution time: " << ms2.count() << " ms" << endl;
 		}
 	}
-	float avg= accumulate(AStarTimes.begin(), AStarTimes.end(), 0.0)/AStarTimes.size();
+	
+	std::vector<double> diffs;
+	unsigned long int i;
+	for(i=0; i<AStarTimes.size(); i++){
+		diffs.push_back(DijkstraTimes[i]-AStarTimes[i]);
+	}
+	double sq_sum=std::inner_product(diffs.begin(), diffs.end(), diffs.begin(), 0.0);
+	double avg= accumulate(diffs.begin(), diffs.end(), 0.0)/diffs.size();
+	double stdev=std::sqrt(sq_sum / diffs.size() - avg*avg);
+	avg= accumulate(AStarTimes.begin(), AStarTimes.end(), 0.0)/AStarTimes.size();
 	cout << "Input: start: ["<<start.first<<","<<start.second<<"] , end: ["<<end.first<<","<<end.second<<"] length: "<<l<<" width: "<<w << " density: "<<p<< " n: "<<n<<"\n";
 	cout<< "A* average: "<<avg<<" ms\n";
 	avg= accumulate(DijkstraTimes.begin(), DijkstraTimes.end(), 0.0)/DijkstraTimes.size();
 	cout << "Dijkstra average: " <<avg<<" ms\n";
+	cout << "Stdev of differences: " << stdev<<"\n";
 }
 
 int main() {
